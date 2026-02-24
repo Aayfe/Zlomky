@@ -18,24 +18,34 @@ public class Main {
 
         IO.println(zlomek.zkratit());
 
+        System.out.println("vypis");
+
+
         Zlomek[] pole = new  Zlomek[3];
         pole[0] = new Zlomek(1,1);
         pole[1] = new Zlomek(3,5);
         pole[2] = new Zlomek(1,5);
 
-        IO.println(prumer(pole));
+        for (Zlomek z : pole){
+            System.out.println(z);
+        }
+        IO.println("prumer zlomku z pole je: "+ prumer(pole));
 
+        IO.println(zlomek.intValue());
     }
     public  static  Zlomek prumer(Zlomek[] pole){
 
         Zlomek soucet = new Zlomek(0,1);
 
+
         for (Zlomek z : pole){
-            soucet.plus(z);
+
+            soucet = soucet.plus(z);
 
         }
 
-        return soucet.deleno(pole.length);
+
+        return soucet.zkratit().deleno(pole.length);
 
     }
 }

@@ -1,6 +1,6 @@
 package cz.uhk.zlomky.data;
 
-public class Zlomek {
+public class Zlomek extends java.lang.Number{
     private int citatel, jmenovatel;
 
     public Zlomek(){
@@ -31,7 +31,7 @@ public class Zlomek {
 
         int citatel, jmenovatel;
 
-        citatel = this.citatel * zlomekB.jmenovatel + zlomekB.citatel * this.jmenovatel;
+        citatel = (this.citatel * zlomekB.jmenovatel) + (zlomekB.citatel * this.jmenovatel);
         jmenovatel = this.jmenovatel * zlomekB.jmenovatel;
         return new Zlomek(citatel, jmenovatel);
     }
@@ -95,6 +95,24 @@ public class Zlomek {
         }while (moduloVysledek != 0);
 
         return  delitel;
+    }
+
+    @Override
+    public int intValue() {
+
+        return citatel/jmenovatel;
+    }
+    @Override
+    public long longValue(){
+        return  citatel/jmenovatel;
+    }
+    @Override
+    public float floatValue(){
+        return  citatel/(float)jmenovatel;
+    }
+    @Override
+    public double doubleValue(){
+        return  citatel/(double)jmenovatel;
     }
 
     @Override
