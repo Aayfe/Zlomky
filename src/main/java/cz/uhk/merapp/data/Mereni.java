@@ -1,5 +1,8 @@
 package cz.uhk.merapp.data;
 
+import cz.uhk.util.Seznam;
+import cz.uhk.util.impl.SpojovySeznam;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,16 +12,16 @@ public class Mereni {
 
     }
 
-    private List<Number> data = new ArrayList<>();
+    private Seznam<Number> data = new SpojovySeznam<>();
 
     public void pridejMereni(Number mereni){
 
-        data.add(mereni);
+        data.pridej(mereni);
     }
 
     public Number getIndex(int index){
 
-        return data.get(index);
+        return data.vrat(index);
     }
 
     public Number soucet(){
@@ -38,7 +41,7 @@ public class Mereni {
         for (Number n : data){
             soucet = soucet.doubleValue() +  n.doubleValue();
         }
-        return  soucet.doubleValue()/data.size();
+        return  soucet.doubleValue()/data.pocet();
     }
 
     public Number min(){
