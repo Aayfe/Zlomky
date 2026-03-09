@@ -14,6 +14,7 @@ public class MereniApp {
         mereni.pridejMereni(1.05f);
         mereni.pridejMereni(100.1556);
         mereni.pridejMereni(456);
+        mereni.pridejMereni(789, 1);
         mereni.pridejMereni(new Zlomek(5, 6));
         mereni.pridejMereni(new Zlomek(1, 2));
         mereni.pridejMereni(new Zlomek(10000000, 78));
@@ -22,7 +23,8 @@ public class MereniApp {
         IO.println("Max: " + mereni.max());
         IO.println("Min: " + mereni.min());
         IO.println("Průměr: "+ mereni.prumer());
-        IO.println("Index: "+ mereni.getIndex(6));
+        IO.println("Index: "+ mereni.getIndex(1));
+
 
 
     }

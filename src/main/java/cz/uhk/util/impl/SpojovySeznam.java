@@ -4,21 +4,53 @@ import cz.uhk.merapp.data.Mereni;
 import cz.uhk.util.Seznam;
 
 import java.util.Iterator;
+import java.util.concurrent.ExecutionException;
 
 //generická třída spojového lineárního seznamu
 public class SpojovySeznam<E> implements Seznam<E> {
 
+
     private PrvekSeznamu<E> prvni, posledni;
+
+    public void pridejPrvekNaPozici(E hodnota, int index) {
+
+        if (index < 0 || index > this.pocet()) {
+            throw new IndexOutOfBoundsException();
+        }
+
+        var novyPrvek = new PrvekSeznamu<E>(hodnota);
+
+        if (index == 0) {
+            novyPrvek.dalsi = prvni;
+            prvni = novyPrvek;
+
+            if (posledni == null) {
+                posledni = novyPrvek;
+            }
+            return;
+        }
+
+        var predchoziPrvek = vratPrvek(index - 1);
+        novyPrvek.dalsi = predchoziPrvek.dalsi;
+
+
+        predchoziPrvek.dalsi = novyPrvek;
+
+        if (novyPrvek.dalsi == null) {
+            posledni = novyPrvek;
+        }
+    }
+
     @Override
     public void pridej(E hodnota) {
 
         var novy = new PrvekSeznamu<E>(hodnota);
-        if (prvni == null){
+        if (prvni == null) {
             prvni = novy;
             posledni = novy;
-        }else{
+        } else {
             posledni.dalsi = novy;
-            posledni=posledni.dalsi;
+            posledni = posledni.dalsi;
         }
 
 
@@ -26,11 +58,11 @@ public class SpojovySeznam<E> implements Seznam<E> {
 
     @Override
     public void smaz(int pozice) {
-        if (pozice == 0){
+        if (pozice == 0) {
             prvni = prvni.dalsi;
-        }else{
-            var predchozi = vratPrvek(pozice-1);
-            if (predchozi != null &&predchozi.dalsi !=null) {
+        } else {
+            var predchozi = vratPrvek(pozice - 1);
+            if (predchozi != null && predchozi.dalsi != null) {
                 predchozi.dalsi = predchozi.dalsi.dalsi;
             }
         }
@@ -39,24 +71,23 @@ public class SpojovySeznam<E> implements Seznam<E> {
 
     @Override
     public E vrat(int pozice) {
-        E hodnota = vratPrvek(pozice).hodnota;
-        if (hodnota==null)
-        {
-            return null;
+        var prvek = vratPrvek(pozice);
 
-        }else {
-            return hodnota;
-
+        if (prvek == null || prvek.hodnota == null) {
+            throw new NullPointerException();
         }
+
+        return prvek.hodnota;
     }
+
     private PrvekSeznamu<E> vratPrvek(int pozice) {
-        if (pozice<0){
+        if (pozice < 0) {
             return null;
         }
         var pom = prvni;
 
-        for (int cislo = 0; cislo < pozice ; cislo++){
-            pom =  pom.dalsi;
+        for (int cislo = 0; cislo < pozice; cislo++) {
+            pom = pom.dalsi;
         }
         return pom;
     }
@@ -66,7 +97,7 @@ public class SpojovySeznam<E> implements Seznam<E> {
         var pom = prvni;
         var pocet = 0;
 
-        while (pom != null){
+        while (pom != null) {
             pocet++;
             pom = pom.dalsi;
         }
@@ -74,37 +105,34 @@ public class SpojovySeznam<E> implements Seznam<E> {
         return pocet;
     }
 
+
     @Override
     public Iterator<E> iterator() {
         return new Iterator<E>() {
 
             PrvekSeznamu<E> aktualni = prvni;
+
             @Override
             public boolean hasNext() {
-
-                return aktualni != null && aktualni.dalsi!=null;
+                return aktualni != null;
             }
 
             @Override
             public E next() {
-                if (aktualni == null){
-                    return null;
-                }else{
-                    aktualni = aktualni.dalsi;
-                    return aktualni.hodnota;
-                }
-
+                E hodnota = aktualni.hodnota;
+                aktualni = aktualni.dalsi;
+                return hodnota;
             }
         };
     }
-}
 
-class PrvekSeznamu<T> {
-     T hodnota;
-     PrvekSeznamu<T> dalsi;
+    class PrvekSeznamu<T> {
+        T hodnota;
+        PrvekSeznamu<T> dalsi;
 
-    public PrvekSeznamu(T hodnota) {
+        public PrvekSeznamu(T hodnota) {
 
-        this.hodnota = hodnota;
+            this.hodnota = hodnota;
+        }
     }
 }

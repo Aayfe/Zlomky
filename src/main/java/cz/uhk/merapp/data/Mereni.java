@@ -18,6 +18,10 @@ public class Mereni {
 
         data.pridej(mereni);
     }
+    public void pridejMereni(Number mereni ,int index){
+
+        data.pridejPrvekNaPozici(mereni, index);
+    }
 
     public Number getIndex(int index){
 
